@@ -1,0 +1,32 @@
+services:
+  # service-b microservice
+  service-b:
+    build:
+      args:
+        - NODE_ENV=development
+        - PORT=3031
+      context: apps/service-b
+    command: npm run dev 
+    ports:
+      - 3031:3031
+    volumes:
+      - ./apps/service-b:/usr/src/app:ro
+  # service-a microservice
+  service-a:
+    build:
+      args: 
+        - NODE_ENV=development
+      context: apps/service-a
+    command: npm run dev 
+    ports:
+      - 3032:3032
+    volumes:
+      - ./app/service-a:/usr/src/app:ro
+  # frontend application container
+  fe:
+    build:
+      context: apps/frontend
+    ports:
+      - 8080:8080
+    volumes:
+      - ./apps/frontend:/usr/src/app:ro
